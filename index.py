@@ -120,3 +120,41 @@ plt.show()
 # Many models (such as Logistic Regression, KNN, and SVM) are sensitive to feature scaling.
 # If features are not normalized, large-scale features (like capital run length) may dominate smaller ones.
 # Therefore, feature scaling is important before training models.
+
+X = df.drop("spam", axis=1)
+y = df["spam"]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+X_train_shape = X_train.shape
+print('X_train.shape', X_train_shape)
+print('y_train.shape', y_train.shape)
+X_test_shape = X_test.shape
+print('X_test.shape', X_test_shape)
+print('y_test.shape', y_test.shape)
+print()
+
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train) # Fit only on training data
+X_test_scaled = scaler.transform(X_test)
+
+pca = PCA()
+pca.fit(X_train_scaled)
+perc_exp_vals = np.cumsum(pca.explained_variance_ratio_)
+
+plt.plot(range(1, len(perc_exp_vals) + 1), perc_exp_vals)
+plt.xlabel("Number of Components")
+plt.ylabel("Cumulative Explained Variance")
+plt.title("PCA Cumulative Explained Variance")
+plt.axhline(y=0.90, color='r', linestyle='--')
+plt.grid(True)
+plt.savefig('outputs/pca_variance_explained_task2.png')
+plt.show()
+
+n_components_90 = np.argmax(perc_exp_vals >= 0.90) + 1
+print("Components needed for 90% variance:", n_components_90)
+
+X_train_pca = pca.transform(X_train_scaled)[:, :n_components_90]
+X_test_pca  = pca.transform(X_test_scaled)[:, :n_components_90]
