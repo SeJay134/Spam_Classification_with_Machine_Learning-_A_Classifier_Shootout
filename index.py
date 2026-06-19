@@ -158,3 +158,10 @@ print("Components needed for 90% variance:", n_components_90)
 
 X_train_pca = pca.transform(X_train_scaled)[:, :n_components_90]
 X_test_pca  = pca.transform(X_test_scaled)[:, :n_components_90]
+
+knn_unscaled = KNeighborsClassifier(n_neighbors=5)
+knn_unscaled.fit(X_train, y_train)
+preds_unscaled = knn_unscaled.predict(X_test)
+print("Accuracy, unscaled:", accuracy_score(y_test, preds_unscaled))
+print(classification_report(y_test, preds_unscaled))
+print()
