@@ -172,3 +172,16 @@ preds_scaled = knn_scaled.predict(X_test_scaled)
 print("Accuracy, scaled:", accuracy_score(y_test, preds_scaled))
 print(classification_report(y_test, preds_scaled))
 print()
+
+knn_pca = KNeighborsClassifier(n_neighbors=5)
+knn_pca.fit(X_train_pca, y_train)
+preds_pca = knn_pca.predict(X_test_pca)
+print("Accuracy, pca:", accuracy_score(y_test, preds_pca))
+print(classification_report(y_test, preds_pca))
+print()
+
+# markdown
+# KNN performs poorly on unscaled data due to differences in feature scales. 
+# Scaling significantly improves performance. 
+# PCA slightly reduces performance compared to scaled data but reduces dimensionality 
+# while maintaining reasonable accuracy.
