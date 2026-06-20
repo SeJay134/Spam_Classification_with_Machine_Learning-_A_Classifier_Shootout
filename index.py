@@ -396,3 +396,37 @@ print(f"Std LogisticRegression PCA:  {cv_scores_log_reg_2.std():.3f}")
 # Decision Trees show higher variance across folds, especially for deeper trees, indicating overfitting tendencies. 
 # PCA slightly reduces accuracy but improves stability in some cases, particularly for Logistic Regression.
 
+# pipeline 1
+r_forest_pipeline = Pipeline([
+    ("classifier", RandomForestClassifier(n_estimators=100, max_depth=6, random_state=0))
+])
+r_forest_pipeline.fit(X_train, y_train)
+pred_r_forest_pipeline = r_forest_pipeline.predict(X_test)
+print(classification_report(y_test, pred_r_forest_pipeline))
+
+# pipeline 2
+log_reg_pipeline = Pipeline([
+    ("scaler", StandardScaler()),
+    ("classifier", LogisticRegression(C=1.0, max_iter=1000, solver='liblinear'))
+])
+log_reg_pipeline.fit(X_train, y_train)
+pred_log_reg_pipeline = log_reg_pipeline.predict(X_test)
+print(classification_report(y_test, pred_log_reg_pipeline))
+
+pca_pipeline = Pipeline([
+    ("scaler",     StandardScaler()),
+    ("pca",        PCA(n_components = n_components_90)),  # use your n_components from Task 2
+    ("classifier", LogisticRegression(C=1.0, max_iter=1000, solver='liblinear'))
+])
+pca_pipeline.fit(X_train, y_train)
+pred_pca_pipeline = pca_pipeline.predict(X_test)
+print(classification_report(y_test, pred_pca_pipeline))
+
+# The Random Forest pipeline performs very similarly to the manual implementation,
+# confirming that tree-based models are insensitive to feature scaling.
+
+# The Logistic Regression pipeline matches the scaled version from Task 3,
+# showing that the pipeline correctly applies StandardScaler without data leakage.
+
+# The two pipelines differ in structure because tree-based models do not require
+# preprocessing, while linear models benefit from standardized features.
