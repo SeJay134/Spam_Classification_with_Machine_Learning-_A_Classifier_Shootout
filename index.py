@@ -62,7 +62,7 @@ print(df.head())
 spam = df[df['spam'] == 1]
 ham = df[df['spam'] == 0]
 
-plt.boxplot([ham['word_freq_free'], spam['word_freq_free']], labels=['ham', 'spam'])
+plt.boxplot([ham['word_freq_free'], spam['word_freq_free']], tick_labels=['ham', 'spam'])
 plt.title('word_freq_free: ham vs spam')
 plt.ylabel('Frequency')
 plt.grid(True)
@@ -70,7 +70,7 @@ plt.savefig('outputs/word_freq_free.png')
 plt.close()
 plt.show()
 
-plt.boxplot([ham['char_freq_!'], spam['char_freq_!']], labels=['ham', 'spam'])
+plt.boxplot([ham['char_freq_!'], spam['char_freq_!']], tick_labels=['ham', 'spam'])
 plt.title('char_freq_!: ham vs spam')
 plt.ylabel('Frequency')
 plt.grid(True)
@@ -78,7 +78,7 @@ plt.savefig('outputs/char_freq_!.png')
 plt.close()
 plt.show()
 
-plt.boxplot([ham['capital_run_length_total'], spam['capital_run_length_total']], labels=['ham', 'spam'])
+plt.boxplot([ham['capital_run_length_total'], spam['capital_run_length_total']], tick_labels=['ham', 'spam'])
 plt.ylabel('Frequency')
 plt.grid(True)
 plt.title('capital_run_length_total')
