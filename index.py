@@ -210,3 +210,24 @@ model_dtc_none.fit(X_train, y_train)
 preds_none = model_dtc_none.predict(X_test)
 print("Accuracy_dtc_none:", accuracy_score(y_test, preds_none))
 print('max_depth none', classification_report(y_test, preds_none))
+
+# As tree depth increases, training accuracy increases but test accuracy eventually decreases, 
+# indicating overfitting.
+
+# RandomForestClassifier
+clf_task3 = RandomForestClassifier(n_estimators=100, max_depth=6, random_state=0)
+clf_task3.fit(X_train_scaled, y_train)
+preds_clf_task3 = clf_task3.predict(X_test_scaled)
+print("Accuracy_clf_task3:", accuracy_score(y_test, preds_clf_task3))
+print('RandomForest (scaled)', classification_report(y_test, preds_clf_task3))
+
+clf_task3_pca = RandomForestClassifier(n_estimators=100, max_depth=6, random_state=0)
+clf_task3_pca.fit(X_train_pca, y_train)
+preds_clf_task3_pca = clf_task3_pca.predict(X_test_pca)
+print("Accuracy_clf_task3_pca:", accuracy_score(y_test, preds_clf_task3_pca))
+print('RandomForest (PCA)', classification_report(y_test, preds_clf_task3_pca))
+
+# Random Forest performed strongly on both scaled and PCA-reduced data. 
+# Scaling had little effect, while PCA slightly reduced performance due to loss of feature detail. 
+# However, PCA still preserved most predictive power while reducing dimensionality.
+
